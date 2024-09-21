@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:background="@drawable/widget_background"
     android:padding="16dp">
 
+    <!-- Days Left Text -->
     <TextView
         android:id="@+id/days_left"
         android:layout_width="wrap_content"
@@ -15,7 +16,8 @@
         android:layout_alignParentStart="true"
         android:fontFamily="sans-serif" />
 
-    <View
+    <!-- Separator (Updated) -->
+    <TextView
         android:id="@+id/separator"
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -23,11 +25,12 @@
         android:layout_below="@id/days_left"
         android:layout_marginVertical="8dp" />
 
+    <!-- Custom Text -->
     <TextView
         android:id="@+id/custom_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Year End"
+        android:text="Your Event"
         android:textSize="16sp"
         android:textColor="#000000"
         android:layout_below="@id/separator"
