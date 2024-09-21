@@ -2,13 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.countdownwidgetapp">
 
+    <!-- Required permissions can be added here if needed -->
+
     <application
         android:allowBackup="true"
         android:label="Countdown Widget App"
         android:icon="@mipmap/ic_launcher"
         android:supportsRtl="true">
 
-        <!-- Updated Receiver -->
+        <!-- Widget Provider -->
         <receiver
             android:name=".CountdownWidgetProvider"
             android:exported="true">
@@ -20,10 +22,12 @@
                 android:resource="@xml/countdown_widget_info" />
         </receiver>
 
-        <!-- Updated Activity -->
+        <!-- Configuration Activity -->
         <activity
             android:name=".WidgetConfigActivity"
-            android:exported="false" />
+            android:exported="false">
+            <!-- No intent-filter needed unless the activity handles specific intents -->
+        </activity>
 
     </application>
 
