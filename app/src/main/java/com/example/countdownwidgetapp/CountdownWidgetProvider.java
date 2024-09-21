@@ -1,39 +1,30 @@
-package com.example.countdownwidgetapp;
+static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
+                            int appWidgetId) {
 
-import android.appwidget.AppWidgetManager;
-import android.appwidget.AppWidgetProvider;
-import android.content.Context;
-import android.widget.RemoteViews;
+    // Get stored event name and date
+    SharedPreferences prefs = context.getSharedPreferences("widget_prefs", Context.MODE_PRIVATE);
+    String eventName = prefs.getString("event_name_" + appWidgetId, "Event");
+    String dateString = prefs.getString("event_date_" + appWidgetId, "2021-12-31");
 
-import java.util.Calendar;
+    // Parse date string
+    String[] dateParts = dateString.split("-");
+    int year = Integer.parseInt(dateParts[0]);
+    int month = Integer.parseInt(dateParts[1]) - 1; // Months are 0-based
+    int day = Integer.parseInt(dateParts[2]);
 
-public class CountdownWidgetProvider extends AppWidgetProvider {
+    // Calculate days left
+    Calendar today = Calendar.getInstance();
+    Calendar eventDate = Calendar.getInstance();
+    eventDate.set(year, month, day);
 
-    @Override
-    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        for (int appWidgetId : appWidgetIds) {
-            updateAppWidget(context, appWidgetManager, appWidgetId);
-        }
-    }
+    long diff = eventDate.getTimeInMillis() - today.getTimeInMillis();
+    int daysLeft = (int) (diff / (1000 * 60 * 60 * 24));
 
-    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
-                                int appWidgetId) {
+    // Update the widget views
+    RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
+    views.setTextViewText(R.id.days_left, daysLeft + " days left");
+    views.setTextViewText(R.id.custom_text, eventName);
 
-        // Calculate days left in the year
-        Calendar today = Calendar.getInstance();
-        Calendar endOfYear = Calendar.getInstance();
-        endOfYear.set(Calendar.MONTH, Calendar.DECEMBER);
-        endOfYear.set(Calendar.DAY_OF_MONTH, 31);
-
-        long diff = endOfYear.getTimeInMillis() - today.getTimeInMillis();
-        int daysLeft = (int) (diff / (1000 * 60 * 60 * 24));
-
-        // Create the view for the widget
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
-        views.setTextViewText(R.id.days_left, daysLeft + " days left");
-        views.setTextViewText(R.id.custom_text, "Year End");
-
-        // Update the widget
-        appWidgetManager.updateAppWidget(appWidgetId, views);
-    }
+    // Update the widget
+    appWidgetManager.updateAppWidget(appWidgetId, views);
 }
