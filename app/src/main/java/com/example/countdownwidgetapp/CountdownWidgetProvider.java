@@ -17,7 +17,6 @@ public class CountdownWidgetProvider extends AppWidgetProvider {
         }
     }
 
-    // Place all methods inside the class braces { }
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
 
         // Retrieve user data
